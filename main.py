@@ -3,11 +3,7 @@ from transformers import pipeline
 
 app = Flask(__name__)
 
-# ---------- CONFIG ----------
 
-# If you saved your model locally:
-# MODEL_NAME = "geopolitics_model"
-# Else use the HF model directly:
 MODEL_NAME = "geopolitics_model"
 
 
@@ -19,16 +15,16 @@ LABELS = [
     "diplomacy"
 ]
 
-# Load model once at startup (this can take a bit the first time)
+
 classifier = pipeline(
     "zero-shot-classification",
     model=MODEL_NAME,
     tokenizer=MODEL_NAME,
-    device=-1  # CPU; use 0 if you have GPU
+    device=-1  
 )
 
 
-# ---------- ROUTES ----------
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -56,5 +52,6 @@ def index():
 
 
 if __name__ == "__main__":
-    # debug=True for dev, turn off in production
+   
     app.run(host="0.0.0.0", port=5000, debug=True)
+
