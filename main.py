@@ -4,7 +4,8 @@ from transformers import pipeline
 app = Flask(__name__)
 
 
-MODEL_NAME = "geopolitics_model"
+MODEL_NAME = "typeform/distilbert-base-uncased-mnli"
+
 
 
 LABELS = [
@@ -36,9 +37,9 @@ def index():
         text = request.form.get("text", "").strip()
         if text:
             result = classifier(text, LABELS)
-            # Top prediction
+            
             prediction = result["labels"][0]
-            # All labels + scores
+            
             scores = list(zip(result["labels"],
                               [round(s, 3) for s in result["scores"]]))
 
@@ -54,4 +55,3 @@ def index():
 if __name__ == "__main__":
    
     app.run(host="0.0.0.0", port=5000, debug=True)
-
