@@ -1,2 +1,1 @@
-Coudn't add model tensors- bro is like 80 MB after compressing 
-Don't worry just execute the main.py the model will be loaded during runtime
+Coudn't add model tensors - bro is like 80 MB after compressing ,don't worry just execute the main.py the model will be loaded during runtime.
