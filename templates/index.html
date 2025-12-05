@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Geopolitical Relation Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e5e7eb;
+            display: flex;
+            justify-content: center;
+            padding: 40px 10px;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: #111827;
+            border-radius: 16px;
+            padding: 24px 28px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #a5b4fc;
+        }
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            border-radius: 8px;
+            border: 1px solid #374151;
+            padding: 10px;
+            font-size: 14px;
+            background: #020617;
+            color: #e5e7eb;
+            resize: vertical;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        .btn {
+            margin-top: 12px;
+            padding: 10px 18px;
+            border-radius: 999px;
+            border: none;
+            background: #4f46e5;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #4338ca;
+        }
+        .result-card {
+            margin-top: 20px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: #020617;
+            border: 1px solid #1f2937;
+        }
+        .result-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #9ca3af;
+        }
+        .prediction {
+            font-size: 20px;
+            margin: 6px 0;
+            color: #f9fafb;
+        }
+        .scores-table {
+            margin-top: 10px;
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .scores-table th,
+        .scores-table td {
+            padding: 6px 4px;
+            text-align: left;
+        }
+        .scores-table th {
+            color: #9ca3af;
+            border-bottom: 1px solid #1f2937;
+        }
+        .scores-table tr:nth-child(even) {
+            background: #020617;
+        }
+        .label-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: #1f2937;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .helper {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🌍 Geopolitical Relation Analyzer</h1>
+    <p class="helper">
+        Enter a news headline or diplomatic statement. The model will classify it as
+        <span class="label-badge">cooperation</span>,
+        <span class="label-badge">conflict</span>,
+        <span class="label-badge">neutral</span>,
+        <span class="label-badge">military escalation</span>,
+        or <span class="label-badge">diplomacy</span>.
+    </p>
+
+    <form method="POST">
+        <textarea name="text" placeholder="e.g. India and China held talks to reduce border tensions...">{{ text or "" }}</textarea>
+        <br>
+        <button class="btn" type="submit">Analyze</button>
+    </form>
+
+    {% if prediction %}
+        <div class="result-card">
+            <div class="result-title">Predicted relation</div>
+            <div class="prediction">{{ prediction }}</div>
+
+            {% if scores %}
+                <table class="scores-table">
+                    <thead>
+                    <tr>
+                        <th>Label</th>
+                        <th>Confidence</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for label, score in scores %}
+                        <tr>
+                            <td>{{ label }}</td>
+                            <td>{{ "%.3f"|format(score) }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+</body>
+</html>
